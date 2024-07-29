@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\SendNotificatoin;
+use App\Http\Controllers\MeetingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,14 +18,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/pusher', function () {
+    return view('pusher');
+});
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/send', [App\Http\Controllers\SendNotificatoin::class, 'index']);
+
+
+Route::controller(MeetingController::class)->group(function () {
+    Route::post('/create-meeting', 'createMeeting')->name('create.meeting');
+    Route::get('/meeting/{url}', 'joinMeeting')->name('join.meeting');
+});
